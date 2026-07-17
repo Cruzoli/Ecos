@@ -5,361 +5,2343 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1"
+        content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="theme-color"
-        content="#07070a"
-    >
+    <title>Arquivo Recuperado</title>
 
-    <title>Fragmento</title>
-
-    <!-- Ícone da aba -->
     <link
         rel="icon"
         type="image/png"
         href="favicon.png"
     >
 
-    <!-- Estilo do site -->
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <style>
+        :root {
+            --background: #050505;
+            --background-soft: #0a080d;
+            --panel: rgba(12, 10, 16, 0.92);
+
+            --gold: #d6b35a;
+            --gold-light: #ffe7a0;
+            --gold-dark: #6d5725;
+
+            --purple: #7c3cff;
+            --purple-light: #b58cff;
+            --purple-dark: #281242;
+
+            --text: #e7e2d8;
+            --text-muted: #918b9b;
+
+            --danger: #d94141;
+            --danger-light: #ff7272;
+            --danger-dark: #320707;
+
+            --success: #73d69a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(79, 31, 130, 0.18),
+                    transparent 38%
+                ),
+                radial-gradient(
+                    circle at 15% 55%,
+                    rgba(214, 179, 90, 0.07),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    180deg,
+                    #020202 0%,
+                    var(--background-soft) 55%,
+                    #020202 100%
+                );
+
+            font-family:
+                "Courier New",
+                Courier,
+                monospace;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            pointer-events: none;
+
+            opacity: 0.07;
+
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 0.04) 0,
+                    rgba(255, 255, 255, 0.04) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9997;
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    transparent 35%,
+                    rgba(0, 0, 0, 0.82) 100%
+                );
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .screen {
+            position: relative;
+            z-index: 2;
+
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TELA DE ACESSO
+        ========================== */
+
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+        }
+
+        .login-panel {
+            position: relative;
+
+            width: min(620px, 100%);
+            padding: 48px 34px;
+
+            text-align: center;
+
+            border: 1px solid var(--gold-dark);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(22, 17, 28, 0.96),
+                    rgba(5, 5, 6, 0.98)
+                );
+
+            box-shadow:
+                0 0 60px rgba(76, 29, 123, 0.22),
+                inset 0 0 40px rgba(214, 179, 90, 0.03);
+        }
+
+        .login-panel::before,
+        .login-panel::after {
+            content: "";
+            position: absolute;
+
+            width: 48px;
+            height: 48px;
+
+            border-color: var(--gold);
+        }
+
+        .login-panel::before {
+            top: -1px;
+            left: -1px;
+
+            border-top: 2px solid;
+            border-left: 2px solid;
+        }
+
+        .login-panel::after {
+            right: -1px;
+            bottom: -1px;
+
+            border-right: 2px solid;
+            border-bottom: 2px solid;
+        }
+
+        .sigil {
+            margin-bottom: 22px;
+
+            color: var(--gold);
+            font-size: clamp(3rem, 10vw, 5.5rem);
+            line-height: 1;
+
+            text-shadow:
+                0 0 16px rgba(214, 179, 90, 0.5),
+                0 0 35px rgba(124, 60, 255, 0.3);
+        }
+
+        .access-label {
+            margin-bottom: 12px;
+
+            color: var(--purple-light);
+
+            font-size: 0.76rem;
+            letter-spacing: 0.36rem;
+            text-transform: uppercase;
+        }
+
+        .login-title {
+            margin-bottom: 12px;
+
+            color: var(--gold-light);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            font-weight: normal;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+        }
+
+        .login-description {
+            max-width: 480px;
+            margin: 0 auto 32px;
+
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .password-wrapper {
+            position: relative;
+
+            width: min(420px, 100%);
+            margin: 0 auto;
+        }
+
+        #password-input {
+            width: 100%;
+            padding: 16px 18px;
+
+            color: var(--gold-light);
+            caret-color: var(--purple-light);
+
+            text-align: center;
+            letter-spacing: 0.28rem;
+            text-transform: uppercase;
+
+            border: 1px solid var(--gold-dark);
+            outline: none;
+
+            background: rgba(0, 0, 0, 0.75);
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        #password-input:focus {
+            border-color: var(--gold);
+
+            box-shadow:
+                0 0 0 3px rgba(214, 179, 90, 0.08),
+                0 0 24px rgba(124, 60, 255, 0.14);
+        }
+
+        #access-button {
+            width: min(420px, 100%);
+            margin-top: 14px;
+            padding: 15px 18px;
+
+            color: #080604;
+
+            border: 1px solid var(--gold);
+            background:
+                linear-gradient(
+                    90deg,
+                    #8f7130,
+                    var(--gold-light),
+                    #8f7130
+                );
+
+            font-weight: bold;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+
+            transition:
+                transform 0.2s ease,
+                filter 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        #access-button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+
+            box-shadow:
+                0 0 25px rgba(214, 179, 90, 0.22);
+        }
+
+        #login-message {
+            min-height: 22px;
+            margin-top: 18px;
+
+            color: var(--danger-light);
+            font-size: 0.82rem;
+            letter-spacing: 0.13rem;
+            text-transform: uppercase;
+        }
+
+        .shake {
+            animation: shake 0.35s linear;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-10px);
+            }
+
+            40% {
+                transform: translateX(9px);
+            }
+
+            60% {
+                transform: translateX(-6px);
+            }
+
+            80% {
+                transform: translateX(4px);
+            }
+        }
+
+        /* =========================
+           TELA DE CARREGAMENTO
+        ========================== */
+
+        #loading-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 24px;
+        }
+
+        .loading-box {
+            width: min(650px, 100%);
+
+            text-align: center;
+        }
+
+        .loading-symbol {
+            margin-bottom: 26px;
+
+            color: var(--gold);
+            font-size: 4rem;
+
+            animation:
+                symbolPulse 1.4s infinite alternate,
+                slowRotate 10s linear infinite;
+        }
+
+        @keyframes symbolPulse {
+            from {
+                opacity: 0.45;
+                text-shadow: 0 0 6px rgba(214, 179, 90, 0.2);
+            }
+
+            to {
+                opacity: 1;
+                text-shadow:
+                    0 0 18px rgba(214, 179, 90, 0.75),
+                    0 0 38px rgba(124, 60, 255, 0.5);
+            }
+        }
+
+        @keyframes slowRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-title {
+            margin-bottom: 20px;
+
+            color: var(--gold-light);
+            font-size: 1rem;
+            letter-spacing: 0.3rem;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            overflow: hidden;
+
+            border: 1px solid var(--gold-dark);
+            background: #050505;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple),
+                    var(--gold),
+                    var(--purple-light)
+                );
+
+            box-shadow:
+                0 0 20px rgba(124, 60, 255, 0.55);
+
+            transition: width 0.2s linear;
+        }
+
+        #loading-text {
+            margin-top: 18px;
+
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            letter-spacing: 0.12rem;
+        }
+
+        /* =========================
+           CONTEÚDO PRINCIPAL
+        ========================== */
+
+        #archive-screen {
+            padding-bottom: 100px;
+        }
+
+        .archive-header {
+            position: relative;
+
+            min-height: 80vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 90px 24px 70px;
+
+            text-align: center;
+        }
+
+        .archive-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+
+            width: min(900px, 86%);
+            height: 1px;
+
+            transform: translateX(-50%);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--gold-dark),
+                    var(--purple),
+                    var(--gold-dark),
+                    transparent
+                );
+        }
+
+        .archive-header-content {
+            max-width: 900px;
+        }
+
+        .archive-code {
+            margin-bottom: 18px;
+
+            color: var(--purple-light);
+
+            font-size: 0.76rem;
+            letter-spacing: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .archive-title {
+            margin-bottom: 24px;
+
+            color: var(--gold-light);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.5rem, 9vw, 6rem);
+            font-weight: normal;
+            line-height: 1;
+            letter-spacing: 0.16rem;
+            text-transform: uppercase;
+
+            text-shadow:
+                0 0 30px rgba(214, 179, 90, 0.16);
+        }
+
+        .archive-intro {
+            max-width: 700px;
+            margin: 0 auto;
+
+            color: #b8b1bf;
+            font-size: clamp(0.92rem, 2vw, 1.05rem);
+            line-height: 2;
+        }
+
+        .archive-intro strong {
+            color: var(--gold);
+            font-weight: normal;
+        }
+
+        .scroll-indicator {
+            margin-top: 45px;
+
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.25rem;
+            text-transform: uppercase;
+
+            animation: scrollPulse 1.5s infinite alternate;
+        }
+
+        @keyframes scrollPulse {
+            from {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(8px);
+            }
+        }
+
+        /* =========================
+           SEÇÃO DOS FRAGMENTOS
+        ========================== */
+
+        .fragments-section {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding-top: 100px;
+        }
+
+        .section-heading {
+            margin-bottom: 60px;
+
+            text-align: center;
+        }
+
+        .section-kicker {
+            margin-bottom: 12px;
+
+            color: var(--purple-light);
+            font-size: 0.72rem;
+            letter-spacing: 0.35rem;
+            text-transform: uppercase;
+        }
+
+        #fragments-heading {
+            color: var(--gold-light);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            font-weight: normal;
+            letter-spacing: 0.12rem;
+            text-transform: uppercase;
+        }
+
+        .section-status {
+            margin-top: 16px;
+
+            color: var(--success);
+            font-size: 0.76rem;
+            letter-spacing: 0.16rem;
+        }
+
+        .fragments-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 28px;
+        }
+
+        .fragment-card {
+            position: relative;
+            overflow: hidden;
+
+            padding: 30px;
+
+            border: 1px solid rgba(214, 179, 90, 0.38);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(19, 14, 24, 0.96),
+                    rgba(7, 7, 9, 0.98)
+                );
+
+            box-shadow:
+                0 18px 50px rgba(0, 0, 0, 0.34),
+                inset 0 0 35px rgba(214, 179, 90, 0.018);
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .fragment-card:hover {
+            transform: translateY(-5px);
+
+            border-color: rgba(214, 179, 90, 0.8);
+
+            box-shadow:
+                0 24px 70px rgba(0, 0, 0, 0.46),
+                0 0 35px rgba(124, 60, 255, 0.08);
+        }
+
+        .fragment-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--purple),
+                    var(--gold),
+                    transparent
+                );
+        }
+
+        .fragment-number {
+            margin-bottom: 8px;
+
+            color: var(--purple-light);
+            font-size: 0.72rem;
+            letter-spacing: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .carrier-found {
+            margin-bottom: 25px;
+
+            color: var(--gold-light);
+            font-size: 0.82rem;
+            letter-spacing: 0.17rem;
+            text-transform: uppercase;
+        }
+
+        .scan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-bottom: 22px;
+            padding: 16px;
+
+            border: 1px solid rgba(124, 60, 255, 0.22);
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .scan-item {
+            min-width: 0;
+        }
+
+        .scan-label {
+            display: block;
+            margin-bottom: 5px;
+
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            letter-spacing: 0.12rem;
+            text-transform: uppercase;
+        }
+
+        .scan-value {
+            color: var(--text);
+            font-size: 0.86rem;
+            overflow-wrap: anywhere;
+        }
+
+        .scan-value.success {
+            color: var(--success);
+        }
+
+        .integrity-block {
+            margin-bottom: 26px;
+        }
+
+        .integrity-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 16px;
+
+            margin-bottom: 9px;
+
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+        }
+
+        .integrity-percent {
+            color: var(--gold);
+        }
+
+        .integrity-track {
+            width: 100%;
+            height: 9px;
+            overflow: hidden;
+
+            border: 1px solid rgba(214, 179, 90, 0.35);
+            background: rgba(0, 0, 0, 0.72);
+        }
+
+        .integrity-fill {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--purple-dark),
+                    var(--purple),
+                    var(--gold)
+                );
+
+            box-shadow:
+                0 0 16px rgba(124, 60, 255, 0.3);
+        }
+
+        .fragment-name {
+            margin-bottom: 15px;
+
+            color: var(--gold-light);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            font-weight: normal;
+            line-height: 1.25;
+        }
+
+        .fragment-quote {
+            margin-bottom: 24px;
+            padding-left: 16px;
+
+            color: #aaa2b0;
+
+            border-left: 2px solid var(--purple);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.96rem;
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .power-box {
+            padding-top: 22px;
+
+            border-top: 1px solid rgba(214, 179, 90, 0.18);
+        }
+
+        .power-label {
+            display: inline-block;
+
+            margin-bottom: 13px;
+            padding: 5px 8px;
+
+            color: var(--gold);
+
+            border: 1px solid rgba(214, 179, 90, 0.35);
+            background: rgba(214, 179, 90, 0.05);
+
+            font-size: 0.66rem;
+            letter-spacing: 0.17rem;
+            text-transform: uppercase;
+        }
+
+        .power-text {
+            color: #d2ccd5;
+            font-size: 0.91rem;
+            line-height: 1.75;
+        }
+
+        .power-text strong {
+            color: var(--gold-light);
+        }
+
+        .power-text ul {
+            margin: 12px 0 12px 22px;
+        }
+
+        .power-text li {
+            margin-bottom: 8px;
+        }
+
+        /* =========================
+           FRAGMENTO ANÔMALO
+        ========================== */
+
+        .anomaly-wrapper {
+            position: relative;
+
+            width: min(920px, 100%);
+            margin: 90px auto 0;
+        }
+
+        .anomaly-card {
+            position: relative;
+            overflow: hidden;
+
+            padding: clamp(26px, 5vw, 46px);
+
+            border: 1px solid var(--danger);
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 0, 0, 0.025) 0,
+                    rgba(255, 0, 0, 0.025) 2px,
+                    transparent 2px,
+                    transparent 9px
+                ),
+                linear-gradient(
+                    145deg,
+                    rgba(38, 5, 8, 0.97),
+                    rgba(5, 0, 3, 0.99)
+                );
+
+            box-shadow:
+                0 0 65px rgba(217, 65, 65, 0.16),
+                inset 0 0 60px rgba(217, 65, 65, 0.055);
+
+            animation:
+                anomalyBorder 2.2s infinite alternate,
+                anomalyJolt 8s infinite;
+        }
+
+        .anomaly-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+
+            opacity: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.18),
+                    transparent
+                );
+
+            animation: anomalySweep 4.5s infinite;
+        }
+
+        .anomaly-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -15%;
+
+            width: 130%;
+            height: 4px;
+
+            opacity: 0.72;
+
+            background: var(--danger-light);
+
+            box-shadow:
+                0 0 16px var(--danger);
+
+            animation: anomalyScanline 3.2s linear infinite;
+        }
+
+        @keyframes anomalyBorder {
+            from {
+                border-color: rgba(217, 65, 65, 0.4);
+            }
+
+            to {
+                border-color: rgba(255, 114, 114, 1);
+            }
+        }
+
+        @keyframes anomalyJolt {
+            0%,
+            91%,
+            93%,
+            95%,
+            100% {
+                transform: translate(0);
+            }
+
+            92% {
+                transform: translate(-3px, 1px);
+            }
+
+            94% {
+                transform: translate(4px, -1px);
+            }
+        }
+
+        @keyframes anomalySweep {
+            0%,
+            72% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+
+            76% {
+                opacity: 0.8;
+            }
+
+            82% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes anomalyScanline {
+            from {
+                transform: translateY(-10px);
+            }
+
+            to {
+                transform: translateY(650px);
+            }
+        }
+
+        .anomaly-number {
+            margin-bottom: 10px;
+
+            color: var(--danger-light);
+            font-size: 0.78rem;
+            letter-spacing: 0.28rem;
+            text-transform: uppercase;
+        }
+
+        .anomaly-title {
+            margin-bottom: 26px;
+
+            color: var(--danger-light);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2rem, 7vw, 4rem);
+            font-weight: normal;
+            letter-spacing: 0.08rem;
+
+            text-shadow:
+                3px 0 0 rgba(124, 60, 255, 0.3),
+                -3px 0 0 rgba(255, 255, 255, 0.08);
+
+            animation: titleGlitch 2.8s infinite;
+        }
+
+        @keyframes titleGlitch {
+            0%,
+            86%,
+            90%,
+            94%,
+            100% {
+                transform: translate(0);
+                filter: none;
+            }
+
+            87% {
+                transform: translate(-3px, 0);
+                filter: blur(0.4px);
+            }
+
+            89% {
+                transform: translate(4px, 1px);
+            }
+
+            93% {
+                transform: translate(-2px, -1px);
+            }
+        }
+
+        .anomaly-warning {
+            margin-bottom: 28px;
+
+            color: #f0b9b9;
+            font-size: 0.92rem;
+            line-height: 1.9;
+        }
+
+        .anomaly-warning strong {
+            color: var(--danger-light);
+        }
+
+        .anomaly-data {
+            display: grid;
+            grid-template-columns:
+                repeat(
+                    2,
+                    minmax(0, 1fr)
+                );
+
+            gap: 14px;
+
+            margin-bottom: 26px;
+        }
+
+        .anomaly-field {
+            min-height: 82px;
+            padding: 15px;
+
+            border: 1px solid rgba(217, 65, 65, 0.24);
+            background: rgba(0, 0, 0, 0.46);
+        }
+
+        .anomaly-label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #ad6969;
+            font-size: 0.66rem;
+            letter-spacing: 0.16rem;
+            text-transform: uppercase;
+        }
+
+        .anomaly-value {
+            color: var(--danger-light);
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        #corrupted-carrier {
+            min-height: 24px;
+
+            color: #f5dada;
+
+            font-weight: bold;
+            letter-spacing: 0.11rem;
+
+            text-shadow:
+                2px 0 0 rgba(217, 65, 65, 0.5),
+                -2px 0 0 rgba(124, 60, 255, 0.45);
+        }
+
+        .anomaly-integrity {
+            margin-bottom: 28px;
+        }
+
+        .anomaly-track {
+            position: relative;
+
+            width: 100%;
+            height: 12px;
+            overflow: visible;
+
+            border: 1px solid rgba(255, 114, 114, 0.6);
+            background: #090000;
+        }
+
+        .anomaly-fill {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+
+            width: 112%;
+            height: 12px;
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    var(--danger-dark) 0,
+                    var(--danger-dark) 8px,
+                    var(--danger) 8px,
+                    var(--danger) 15px,
+                    var(--purple) 15px,
+                    var(--purple) 19px
+                );
+
+            box-shadow:
+                0 0 20px rgba(217, 65, 65, 0.55);
+
+            animation: corruptBar 0.8s steps(2) infinite;
+        }
+
+        @keyframes corruptBar {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(3px);
+            }
+        }
+
+        .anomaly-message {
+            margin-top: 30px;
+            padding: 24px;
+
+            color: #ffd3d3;
+
+            text-align: center;
+
+            border: 1px solid rgba(217, 65, 65, 0.3);
+            background: rgba(46, 0, 6, 0.48);
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1rem, 3vw, 1.35rem);
+            line-height: 1.8;
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+        }
+
+        .anomaly-message span {
+            display: block;
+            margin-top: 6px;
+
+            color: var(--danger-light);
+        }
+
+        .anomaly-small {
+            margin-top: 18px;
+
+            color: #7e5555;
+            font-size: 0.68rem;
+            letter-spacing: 0.13rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           RODAPÉ
+        ========================== */
+
+        .archive-footer {
+            width: min(1000px, calc(100% - 32px));
+            margin: 100px auto 0;
+            padding-top: 30px;
+
+            color: #5e5863;
+
+            border-top: 1px solid rgba(214, 179, 90, 0.12);
+
+            font-size: 0.66rem;
+            letter-spacing: 0.14rem;
+            line-height: 1.8;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           RESPONSIVIDADE
+        ========================== */
+
+        @media (max-width: 820px) {
+            .fragments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .archive-header {
+                min-height: 70vh;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .login-panel {
+                padding: 40px 20px;
+            }
+
+            .fragment-card {
+                padding: 24px 20px;
+            }
+
+            .scan-grid,
+            .anomaly-data {
+                grid-template-columns: 1fr;
+            }
+
+            .archive-title {
+                letter-spacing: 0.05rem;
+            }
+
+            #fragments-heading {
+                letter-spacing: 0.04rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Efeito de ruído -->
-    <div class="noise"></div>
 
-    <main class="shell">
+    <!-- =========================
+         TELA DE SENHA
+    ========================== -->
 
-        <!-- Tela inicial -->
-        <section
-            id="gate"
-            class="panel gate active"
-        >
+    <main
+        id="login-screen"
+        class="screen"
+    >
+        <section class="login-panel">
             <div class="sigil">
-                <span></span>
-                <span></span>
-                <span></span>
+                ◈
             </div>
 
-            <p class="eyebrow">
-                FRAGMENTO ENCONTRADO
+            <p class="access-label">
+                Transmissão restrita
             </p>
 
-            <h1>
-                ACESSO RESTRITO
+            <h1 class="login-title">
+                Arquivo Recuperado
             </h1>
 
-            <p class="muted">
-                A sequência foi espalhada.
-                Reúna aquilo que restou.
+            <p class="login-description">
+                O conteúdo desta transmissão foi removido dos registros.
+                Insira a assinatura correta para continuar.
             </p>
 
-            <form id="access-form">
-
-                <label for="password">
-                    CHAVE DE SINCRONIZAÇÃO
-                </label>
-
-                <div class="password-row">
-
-                    <input
-                        id="password"
-                        type="password"
-                        maxlength="16"
-                        spellcheck="false"
-                    >
-
-                    <button type="submit">
-                        ENTRAR
-                    </button>
-
-                </div>
-
-                <p
-                    id="status"
-                    class="status"
+            <div class="password-wrapper">
+                <input
+                    id="password-input"
+                    type="password"
+                    placeholder="INSIRA A ASSINATURA"
+                    autocomplete="off"
+                    spellcheck="false"
                 >
-                    INTEGRIDADE DO ARQUIVO: 9,7%
-                </p>
-
-            </form>
-
-            <div
-                id="attempt-warning"
-                class="warning hidden"
-            >
-                ...
             </div>
 
-            <footer>
-                ORIGEM: DESCONHECIDA ·
-                ÚLTIMO ACESSO: HÁ 213 ANOS
-            </footer>
-        </section>
+            <button
+                id="access-button"
+                type="button"
+            >
+                Sincronizar
+            </button>
 
-        <!-- Tela de carregamento -->
-        <section
-            id="loading"
-            class="panel loading"
-        >
-            <p class="eyebrow">
+            <p id="login-message"></p>
+        </section>
+    </main>
+
+    <!-- =========================
+         CARREGAMENTO
+    ========================== -->
+
+    <section
+        id="loading-screen"
+        class="screen hidden"
+    >
+        <div class="loading-box">
+            <div class="loading-symbol">
+                ◈
+            </div>
+
+            <h2 class="loading-title">
                 SINCRONIZAÇÃO
-            </p>
+            </h2>
 
-            <div class="progress">
-                <div id="bar"></div>
+            <div class="loading-bar">
+                <div
+                    id="loading-progress"
+                    class="loading-progress"
+                ></div>
             </div>
 
-            <div id="percent">
-                0%
-            </div>
-
-            <p
-                id="loading-text"
-                class="muted"
-            >
-                Reconstruindo fragmentos...
+            <p id="loading-text">
+                Procurando assinaturas...
             </p>
-        </section>
+        </div>
+    </section>
 
-        <!-- Conteúdo desbloqueado -->
-        <section
-            id="archive"
-            class="archive"
-        >
-            <header class="archive-header">
+    <!-- =========================
+         ARQUIVO PRINCIPAL
+    ========================== -->
 
-                <p class="eyebrow">
-                    ARQUIVO RECONSTRUÍDO
+    <main
+        id="archive-screen"
+        class="screen hidden"
+    >
+        <header class="archive-header">
+            <div class="archive-header-content">
+                <p class="archive-code">
+                    Registro EC-00 / transmissão parcial
                 </p>
 
-                <h1>
-                    SEIS FAGULHAS
+                <h1 class="archive-title">
+                    Ecos
                 </h1>
 
-                <p class="integrity">
-                    INTEGRIDADE: 100%
-                </p>
+                <p class="archive-intro">
+                    O mundo não ofereceu estes Fragmentos.
 
-            </header>
+                    <br><br>
 
-            <!-- Texto de história -->
-            <article class="lore">
+                    Eles foram encontrados entre camadas que não deveriam
+                    se tocar.
 
-                <p>
-                    <strong>Parabéns.</strong>
-                </p>
+                    <br><br>
 
-                <p>
-                    Vocês encontraram fragmentos de uma história
-                    que deveria ter permanecido enterrada.
-                </p>
+                    Durante incontáveis eras, permaneceram sem sucessores.
+                    Agora, seis assinaturas responderam ao chamado.
 
-                <p>
-                    O deus maldito além do último selo ainda não
-                    foi derrotado.
-                    Ele não foi vencido, contido ou compreendido.
-                    Aquilo que os espera não é apenas uma criatura
-                    poderosa, mas uma presença capaz de reduzir
-                    mundos, memórias e juramentos a ruínas.
-                </p>
+                    <br><br>
 
-                <p>
-                    Os Ecos abaixo não são a resposta para
-                    destruí-lo.
-                    São restos deixados por aqueles que tentaram
-                    antes de vocês — pequenas centelhas roubadas
-                    de histórias que já terminaram.
-                </p>
-
-                <p>
-                    Ainda assim, mesmo uma fagulha pode desafiar
-                    uma noite infinita.
-                </p>
-
-                <p>
                     <strong>
-                        Recebam estes fragmentos como esperança
-                        para o que está prestes a acontecer.
+                        O processo de compatibilidade foi concluído.
                     </strong>
                 </p>
 
-            </article>
+                <p class="scroll-indicator">
+                    Desça para acessar os registros ↓
+                </p>
+            </div>
+        </header>
 
-            <!-- Lista dos Ecos -->
-            <section class="ecos">
+        <section class="fragments-section">
 
-                <!-- Eco 1 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 01
-                    </span>
-
-                    <h2>
-                        Nome do Personagem I
-                    </h2>
-
-                    <h3>
-                        Fragmento da Primeira Lâmina
-                    </h3>
-
-                    <p>
-                        Uma vez por cena, após acertar um ataque,
-                        o personagem pode gastar 3 PM para causar
-                        +4d8 de dano e avançar até 6m sem provocar
-                        reações.
-                    </p>
-
-                </article>
-
-                <!-- Eco 2 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 02
-                    </span>
-
-                    <h2>
-                        Nome do Personagem II
-                    </h2>
-
-                    <h3>
-                        Olho que Vê o Instante Morto
-                    </h3>
-
-                    <p>
-                        Uma vez por cena, ao ser alvo de um ataque,
-                        o personagem pode gastar 3 PM para receber
-                        +5 na Defesa e mover-se 3m imediatamente.
-                    </p>
-
-                </article>
-
-                <!-- Eco 3 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 03
-                    </span>
-
-                    <h2>
-                        Nome do Personagem III
-                    </h2>
-
-                    <h3>
-                        Coração que Recusa o Fim
-                    </h3>
-
-                    <p>
-                        Ao cair a 0 PV, pode gastar 4 PM para
-                        permanecer com 1 PV e receber resistência
-                        10 a dano até o início do próximo turno.
-                    </p>
-
-                </article>
-
-                <!-- Eco 4 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 04
-                    </span>
-
-                    <h2>
-                        Nome do Personagem IV
-                    </h2>
-
-                    <h3>
-                        Passo Entre Fendas
-                    </h3>
-
-                    <p>
-                        Uma vez por rodada, pode gastar 2 PM para
-                        se teleportar até 6m para um espaço que
-                        possa ver.
-                    </p>
-
-                </article>
-
-                <!-- Eco 5 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 05
-                    </span>
-
-                    <h2>
-                        Nome do Personagem V
-                    </h2>
-
-                    <h3>
-                        Voz da Última Testemunha
-                    </h3>
-
-                    <p>
-                        Uma vez por cena, pode gastar 3 PM para
-                        obrigar um inimigo em alcance curto a
-                        repetir um teste de resistência
-                        recém-realizado.
-                    </p>
-
-                </article>
-
-                <!-- Eco 6 -->
-                <article class="eco-card">
-
-                    <span class="number">
-                        ECO 06
-                    </span>
-
-                    <h2>
-                        Nome do Personagem VI
-                    </h2>
-
-                    <h3>
-                        Fagulha Contra o Abismo
-                    </h3>
-
-                    <p>
-                        Uma vez por cena, como ação livre, pode
-                        gastar 5 PM para receber +2 em ataques,
-                        Defesa e testes de resistência por 3
-                        rodadas.
-                    </p>
-
-                </article>
-
-            </section>
-
-            <!-- Registro final -->
-            <div class="final-record">
-
-                <p>
-                    FRAGMENTOS LIBERADOS: 6
+            <div class="section-heading">
+                <p class="section-kicker">
+                    Arquivo de compatibilidade
                 </p>
 
-                <p>
-                    SOBREVIVENTES DA ÚLTIMA SINCRONIZAÇÃO: 0
-                </p>
+                <h2 id="fragments-heading">
+                    Seis Fragmentos Recuperados
+                </h2>
 
-                <p class="red">
-                    O DEUS PERCEBEU O ACESSO.
+                <p class="section-status">
+                    6 ASSINATURAS COMPATÍVEIS IDENTIFICADAS
                 </p>
+            </div>
 
+            <div class="fragments-grid">
+
+                <!-- FRAGMENTO 001 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 001
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                98,7%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                94,8%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 94.8%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento do Colapso
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        Durante incontáveis eras, este Fragmento permaneceu
+                        sem um sucessor. Sua assinatura foi reconhecida.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                <strong>
+                                    Uma vez por cena,
+                                </strong>
+
+                                ao acertar um ataque desarmado, você pode gastar
+                                <strong>5 PM</strong>. O golpe atravessa a matéria
+                                e causa <strong>+8d8 de dano de impacto</strong>.
+                            </p>
+
+                            <p>
+                                Todas as criaturas em uma linha de 9m atrás do
+                                alvo sofrem metade desse dano. Criaturas Grandes
+                                ou menores devem passar em um teste de Fortitude
+                                ou ficam caídas.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- FRAGMENTO 002 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 002
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                97,8%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                93,1%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 93.1%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento do Horizonte
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        A distância jamais protegeu aqueles que foram
+                        reconhecidos por esta assinatura.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                <strong>
+                                    Uma vez por cena,
+                                </strong>
+
+                                como ação livre, você pode gastar
+                                <strong>5 PM</strong>. Até o fim do turno, seu
+                                alcance corpo a corpo aumenta em 6m e seus
+                                ataques com lança ignoram redução de dano.
+                            </p>
+
+                            <p>
+                                O primeiro ataque realizado nesse turno causa
+                                <strong>+6d8 de dano</strong>. Se reduzir uma
+                                criatura a 0 PV, você pode realizar imediatamente
+                                outro ataque contra uma criatura diferente.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- FRAGMENTO 003 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 003
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                100%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                100%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 100%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento da Colônia
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        O Fragmento não encontrou um único portador. Encontrou
+                        algo que nunca esteve verdadeiramente sozinho.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                <strong>
+                                    Uma vez por cena,
+                                </strong>
+
+                                você pode gastar <strong>5 PM</strong> para
+                                despertar o Fragmento durante 3 rodadas.
+                            </p>
+
+                            <p>
+                                Enquanto estiver empunhando duas armas, sempre
+                                que acertar um ataque, realiza imediatamente
+                                outro ataque contra o mesmo alvo.
+                            </p>
+
+                            <p>
+                                Se ambos os ataques acertarem, você causa
+                                <strong>+4d6 de dano de trevas</strong> e
+                                recupera PV iguais à metade desse dano.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- FRAGMENTO 004 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 004
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                95,4%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                96,2%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 96.2%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento da Fortaleza
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        A armadura permaneceu de pé muito tempo depois que o
+                        homem dentro dela desapareceu.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                <strong>
+                                    Uma vez por cena,
+                                </strong>
+
+                                você pode gastar <strong>5 PM</strong>. Durante
+                                3 rodadas, recebe <strong>RD 15</strong>,
+                                imunidade a empurrões e imunidade à condição
+                                caído.
+                            </p>
+
+                            <p>
+                                Sempre que sofrer um ataque corpo a corpo, o
+                                atacante sofre <strong>4d6 de dano de luz</strong>.
+                                Ao ativar o Fragmento, você também recebe
+                                <strong>20 PV temporários</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- FRAGMENTO 005 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 005
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                96,7%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                91,6%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 91.6%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento da Coroa
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        Toda coroa termina enterrada. Algumas, porém, continuam
+                        exigindo obediência.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                <strong>
+                                    Uma vez por cena,
+                                </strong>
+
+                                você pode gastar <strong>5 PM</strong>. Durante
+                                3 rodadas, recebe +2 em testes de ataque, Defesa
+                                e testes de resistência.
+                            </p>
+
+                            <p>
+                                Seus ataques causam
+                                <strong>+3d8 de dano</strong>. Sempre que reduzir
+                                uma criatura a 0 PV, recupera
+                                <strong>3 PM</strong>, limitado a uma vez por
+                                rodada.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- FRAGMENTO 006 -->
+
+                <article class="fragment-card">
+                    <p class="fragment-number">
+                        Fragmento 006
+                    </p>
+
+                    <p class="carrier-found">
+                        Portador identificado
+                    </p>
+
+                    <div class="scan-grid">
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Portador
+                            </span>
+
+                            <span class="scan-value">
+                                NOME DO JOGADOR
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Status
+                            </span>
+
+                            <span class="scan-value success">
+                                Compatível
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Compatibilidade
+                            </span>
+
+                            <span class="scan-value">
+                                98,6%
+                            </span>
+                        </div>
+
+                        <div class="scan-item">
+                            <span class="scan-label">
+                                Assinatura
+                            </span>
+
+                            <span class="scan-value success">
+                                Confirmada
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="integrity-block">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="integrity-percent">
+                                97,3%
+                            </span>
+                        </div>
+
+                        <div class="integrity-track">
+                            <div
+                                class="integrity-fill"
+                                style="width: 97.3%;"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <h3 class="fragment-name">
+                        Fragmento da Última Vigília
+                    </h3>
+
+                    <blockquote class="fragment-quote">
+                        Ele não foi o mais forte. Apenas permaneceu quando todos
+                        os outros já haviam caído.
+                    </blockquote>
+
+                    <div class="power-box">
+                        <span class="power-label">
+                            Eco recuperado
+                        </span>
+
+                        <div class="power-text">
+                            <p>
+                                Quando seria reduzido a 0 PV, você pode gastar
+                                <strong>5 PM</strong>. Em vez disso, permanece
+                                com 1 PV e se torna imune a dano durante uma
+                                rodada.
+                            </p>
+
+                            <p>
+                                Durante esse período, recebe +2 em testes de
+                                ataque e seus ataques causam
+                                <strong>+5d8 de dano</strong>.
+                            </p>
+
+                            <p>
+                                Ao final da rodada, sofre
+                                <strong>10d6 de dano irredutível</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- FRAGMENTO ANÔMALO -->
+
+            <div class="anomaly-wrapper">
+                <article class="anomaly-card">
+
+                    <p
+                        id="anomaly-number"
+                        class="anomaly-number"
+                    >
+                        Fragmento 0█7
+                    </p>
+
+                    <h2 class="anomaly-title">
+                        Anomalia detectada
+                    </h2>
+
+                    <div class="anomaly-warning">
+                        <p>
+                            <strong>
+                                ESTE REGISTRO NÃO PERTENCE AO ARQUIVO.
+                            </strong>
+                        </p>
+
+                        <p>
+                            Algo invadiu a transmissão.
+                        </p>
+
+                        <p>
+                            Não possuímos registro de sua recuperação.
+                        </p>
+
+                        <p>
+                            Este Fragmento não deveria estar aqui.
+                        </p>
+                    </div>
+
+                    <div class="anomaly-data">
+
+                        <div class="anomaly-field">
+                            <span class="anomaly-label">
+                                Portador
+                            </span>
+
+                            <div id="corrupted-carrier">
+                                ███████████████
+                            </div>
+                        </div>
+
+                        <div class="anomaly-field">
+                            <span class="anomaly-label">
+                                Status
+                            </span>
+
+                            <div class="anomaly-value">
+                                OBSERVANDO
+                            </div>
+                        </div>
+
+                        <div class="anomaly-field">
+                            <span class="anomaly-label">
+                                Assinatura
+                            </span>
+
+                            <div class="anomaly-value">
+                                DESCONHECIDA
+                            </div>
+                        </div>
+
+                        <div class="anomaly-field">
+                            <span class="anomaly-label">
+                                Origem
+                            </span>
+
+                            <div class="anomaly-value">
+                                NÃO IDENTIFICADA
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="anomaly-integrity">
+                        <div class="integrity-header">
+                            <span>
+                                Integridade do Fragmento
+                            </span>
+
+                            <span class="anomaly-value">
+                                ███,█%
+                            </span>
+                        </div>
+
+                        <div class="anomaly-track">
+                            <div class="anomaly-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="anomaly-message">
+                        O sétimo não foi encontrado.
+
+                        <span>
+                            Ele encontrou vocês.
+                        </span>
+                    </div>
+
+                    <p class="anomaly-small">
+                        Não olhe para ele por muito tempo.
+                    </p>
+
+                </article>
             </div>
 
         </section>
 
+        <footer class="archive-footer">
+            Registro incompleto · origem desconhecida · transmissão ainda ativa
+        </footer>
     </main>
 
-    <!-- Código de funcionamento -->
-    <script src="script.js"></script>
+    <script>
+        const CORRECT_PASSWORD = "ECOS";
+
+        const loginScreen = document.getElementById("login-screen");
+        const loadingScreen = document.getElementById("loading-screen");
+        const archiveScreen = document.getElementById("archive-screen");
+
+        const passwordInput = document.getElementById("password-input");
+        const accessButton = document.getElementById("access-button");
+        const loginMessage = document.getElementById("login-message");
+        const loginPanel = document.querySelector(".login-panel");
+
+        const loadingProgress = document.getElementById("loading-progress");
+        const loadingText = document.getElementById("loading-text");
+
+        const fragmentsHeading =
+            document.getElementById("fragments-heading");
+
+        const anomalyNumber =
+            document.getElementById("anomaly-number");
+
+        const corruptedCarrier =
+            document.getElementById("corrupted-carrier");
+
+        const wrongMessages = [
+            "ASSINATURA NÃO RECONHECIDA.",
+            "ACESSO NEGADO.",
+            "O ARQUIVO RECUSOU SUA PRESENÇA.",
+            "VOCÊ NÃO DEVERIA ESTAR AQUI.",
+            "ELE PERCEBEU."
+        ];
+
+        const loadingMessages = [
+            "Procurando assinaturas...",
+            "Comparando padrões de compatibilidade...",
+            "Reconstruindo registros apagados...",
+            "Recuperando seis Fragmentos...",
+            "Verificando integridade...",
+            "Concluindo sincronização..."
+        ];
+
+        const corruptedNames = [
+            "███████████████",
+            "███L̷H̶██M̸E████",
+            "[NOME CORROMPIDO]",
+            "G̴U̵I̸L̵H̶E̴R̸M̷E̶",
+            "PORTADOR AUSENTE",
+            "██I██E█M██████",
+            "ELE NÃO É UM DE VOCÊS",
+            "█████H̷E̵██████",
+            "[IDENTIDADE INCONSISTENTE]",
+            "NÃO ENCONTRADO"
+        ];
+
+        const anomalyNumbers = [
+            "Fragmento 0█7",
+            "Fragmento 007",
+            "Fragmento ???",
+            "Fragmento 000",
+            "Fragmento [NÃO INDEXADO]",
+            "Fragmento 0█7"
+        ];
+
+        function attemptAccess() {
+            const typedPassword =
+                passwordInput.value.trim().toUpperCase();
+
+            if (typedPassword === CORRECT_PASSWORD) {
+                loginMessage.textContent = "";
+
+                loginScreen.classList.add("hidden");
+                loadingScreen.classList.remove("hidden");
+
+                startLoading();
+                return;
+            }
+
+            const randomMessage =
+                wrongMessages[
+                    Math.floor(
+                        Math.random() * wrongMessages.length
+                    )
+                ];
+
+            loginMessage.textContent = randomMessage;
+
+            loginPanel.classList.remove("shake");
+
+            void loginPanel.offsetWidth;
+
+            loginPanel.classList.add("shake");
+
+            passwordInput.value = "";
+            passwordInput.focus();
+        }
+
+        function startLoading() {
+            let progress = 0;
+            let messageIndex = 0;
+
+            loadingProgress.style.width = "0%";
+            loadingText.textContent = loadingMessages[0];
+
+            const loadingInterval = setInterval(() => {
+                progress += Math.floor(Math.random() * 8) + 3;
+
+                if (progress > 100) {
+                    progress = 100;
+                }
+
+                loadingProgress.style.width = progress + "%";
+
+                const expectedIndex = Math.min(
+                    Math.floor(
+                        progress /
+                        (100 / loadingMessages.length)
+                    ),
+                    loadingMessages.length - 1
+                );
+
+                if (expectedIndex !== messageIndex) {
+                    messageIndex = expectedIndex;
+                    loadingText.textContent =
+                        loadingMessages[messageIndex];
+                }
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+
+                    loadingText.textContent =
+                        "SINCRONIZAÇÃO CONCLUÍDA.";
+
+                    setTimeout(() => {
+                        loadingScreen.classList.add("hidden");
+                        archiveScreen.classList.remove("hidden");
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "instant"
+                        });
+
+                        startAnomalyEffects();
+                    }, 1100);
+                }
+            }, 180);
+        }
+
+        function startAnomalyEffects() {
+            setInterval(() => {
+                const randomName =
+                    corruptedNames[
+                        Math.floor(
+                            Math.random() *
+                            corruptedNames.length
+                        )
+                    ];
+
+                corruptedCarrier.textContent = randomName;
+            }, 720);
+
+            setInterval(() => {
+                const randomNumber =
+                    anomalyNumbers[
+                        Math.floor(
+                            Math.random() *
+                            anomalyNumbers.length
+                        )
+                    ];
+
+                anomalyNumber.textContent = randomNumber;
+            }, 1150);
+
+            setInterval(() => {
+                fragmentsHeading.textContent =
+                    "SETE FRAGMENTOS RECUPERADOS";
+
+                fragmentsHeading.style.color =
+                    "var(--danger-light)";
+
+                setTimeout(() => {
+                    fragmentsHeading.textContent =
+                        "SEIS FRAGMENTOS RECUPERADOS";
+
+                    fragmentsHeading.style.color =
+                        "";
+                }, 230);
+            }, 9200);
+        }
+
+        accessButton.addEventListener(
+            "click",
+            attemptAccess
+        );
+
+        passwordInput.addEventListener(
+            "keydown",
+            event => {
+                if (event.key === "Enter") {
+                    attemptAccess();
+                }
+            }
+        );
+
+        window.addEventListener(
+            "load",
+            () => {
+                passwordInput.focus();
+            }
+        );
+    </script>
+
 </body>
 </html>
 
