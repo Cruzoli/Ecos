@@ -1,9 +1,0 @@
-SITE ARG — ECOS
-
-Senha padrão: ECOS
-
-Para editar os personagens e poderes, abra index.html e substitua os textos "Nome do Personagem I" etc.
-Para trocar a senha, abra script.js e altere: const PASSWORD="ECOS";
-
-Publicação gratuita sugerida: Netlify Drop, GitHub Pages, Cloudflare Pages ou Vercel.
-O site funciona localmente abrindo index.html.
